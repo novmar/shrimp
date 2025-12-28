@@ -1,4 +1,4 @@
-radio.onReceivedString(function (receivedString) {
+bradio.onReceivedString(function (receivedString) {
     serial.writeLine("got: >" + receivedString + "<")
     // serial.writeLine("setting start to true ...  " + START)
     if (receivedString == "SYNC") {
