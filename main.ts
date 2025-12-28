@@ -1,4 +1,4 @@
-bradio.onReceivedString(function (receivedString) {
+radio.onReceivedString(function (receivedString) {
     serial.writeLine("got: >" + receivedString + "<")
     // serial.writeLine("setting start to true ...  " + START)
     if (receivedString == "SYNC") {
@@ -54,10 +54,12 @@ basic.forever(function () {
     }
     SYNC = Math.clamp(0, 100, (SYNC - 2))
 if (clampActual > clamp) {
-        clampActual += 0 - 5
+    if ((clampActual - clamp) <7 ) clampActual + 1 
+        clampActual += 0 - 7
     }
     if (clampActual < clamp) {
-        clampActual += 5
+      if ((clamp - clampActual) < 7) clampActual + 1
+        clampActual += 7
     }
     neZha.setMotorSpeed(neZha.MotorList.M1, mr * mrspin)
     neZha.setMotorSpeed(neZha.MotorList.M4, ml * mlspin)
