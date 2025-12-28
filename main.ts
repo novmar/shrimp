@@ -1,20 +1,43 @@
-let i = 0
-basic.showIcon(IconNames.LeftTriangle)
-neZha.setMotorSpeed(neZha.MotorList.M1, -40)
-neZha.setMotorSpeed(neZha.MotorList.M4, -40)
-basic.forever(function () {
-    neZha.setServoAngel(neZha.ServoTypeList._360, neZha.ServoList.S1, 180)
-    basic.pause(500)
-    neZha.setServoAngel(neZha.ServoTypeList._360, neZha.ServoList.S1, 90)
-    basic.pause(500)
+radio.onReceivedString(function (receivedString) {
+    if (receivedString = "SYNC") {
+        SYNC = 5
+    } else if (receivedString = "START") {
+        START = true
+    }
 })
+radio.onReceivedValue(function (name, value) {
+    if (name = "mr") {
+        mr = value
+    } else if (name = "ml") {
+        ml = value
+    } else if (name = "clamp") {
+        clamp = value
+    }
+})
+let ml = 0
+let mr = 0
+let SYNC = 0
+let START = false
+let clamp = 0
+let WIFIgroup = 153
+let mrspin = 1
+let mlspin = 1
+clamp = 120
+basic.showIcon(IconNames.LeftTriangle)
+neZha.setMotorSpeed(neZha.MotorList.M1, 0)
+neZha.setMotorSpeed(neZha.MotorList.M4, 0)
+radio.setGroup(WIFIgroup)
+while (!(START)) {
+    basic.showIcon(IconNames.Heart)
+    basic.pause(500)
+    basic.showIcon(IconNames.SmallHeart)
+    basic.pause(500)
+}
 basic.forever(function () {
-    i = PlanetX_Basic.ultrasoundSensor(PlanetX_Basic.DigitalRJPin.J1, PlanetX_Basic.Distance_Unit_List.Distance_Unit_cm)
-    if (i >= 4 && i <= 20) {
-        neZha.setMotorSpeed(neZha.MotorList.M1, 100)
-        neZha.setMotorSpeed(neZha.MotorList.M4, -100)
-        basic.pause(500)
-        neZha.setMotorSpeed(neZha.MotorList.M1, -40)
-        neZha.setMotorSpeed(neZha.MotorList.M4, -40)
+    if (SYNC >= 1) {
+        basic.showNumber(SYNC)
+        neZha.setMotorSpeed(neZha.MotorList.M1, mr * mrspin)
+        neZha.setMotorSpeed(neZha.MotorList.M4, ml * mlspin)
+        SYNC += 0 - 1
     }
 })
